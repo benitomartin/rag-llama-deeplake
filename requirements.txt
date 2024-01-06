@@ -1,0 +1,12 @@
+ipykernel
+openai
+tiktoken 
+cohere 
+llama_index
+pypdf
+sentence-transformers
+torch
+torchvision
+torchaudio
+torchtext
+deeplake[all]
