@@ -4,7 +4,7 @@
     <img src="https://www.peru.travel/contenido/general/imagen/en/430/1.1/portada%20llamas,%20alpacas%20y%20vicu%C3%B1as.jpg" width="500" height="400"/>
 </p>
 
-This repository hosts a full Q&A pipeline using llama index framework and Deeplake as vector database. The data used are Harry Potter books that have been extracted from **[Kaggle](https://www.kaggle.com/datasets/hinepo/harry-potter-books-in-pdf-1-7)**. For the following pipeline only 2 books where used due to memory and API KEY tokens limitations.
+This repository hosts a full Q&A pipeline using llama index framework and Deeplake as vector database. The data used are Harry Potter books that have been extracted from **[Kaggle](https://www.kaggle.com/datasets/hinepo/harry-potter-books-in-pdf-1-7)**. For the following pipeline only 2 books were used due to memory and API KEY tokens limitations.
 
 The main steps taken to build the RAG pipeline can be summarize as follows (a basic RAG Pipeline is performed after text cleaning):
 
@@ -64,27 +64,31 @@ When passing documents to a vector store for indexing, there are two main altern
 
 As a general guideline, for larger documents, it's advantageous to break them down into smaller chunks or nodes before indexing. This approach not only helps in avoiding memory limitations but also allows for a more detailed and nuanced representation of the document's content. It facilitates better indexing granularity, potentially enhancing the retrieval and analysis of specific sections within the larger document.
 
-This second option is the approach taken for buildging the Deeplake RAG Pipeline. After creating the nodes the following stepts are carried out, which all combined enhance the model performance:
+This second option is the approach taken for building the Deeplake RAG Pipeline. After creating the nodes the following steps are carried out, which all combined enhance the model performance:
 
-- **Sentence Splitter**: allows to break down your documents into sentences. This will require a pattern to decide where a sentence starts or stops (bullet points, points,..
+- **Sentence Splitter**: allows to break down your documents into sentences. This will require a pattern to decide where a sentence starts or stop (bullet points, points,..).
 
 - **Sentence Window Node Parser**: this splits a document into nodes, with each node being a sentence. Each node contains a window from the surrounding sentences in the metadata. Additionally, it contains a sentence splitter argument.
 
 These two steps would be enough the create a query and get and answer. However, there are still two additional steps that can further enhance the model performance and are included in the pipeline: postprocessing and reranking.
 
-### 🎖️ Portprocessing and Reranking
+### 🎖️ Vector Store
+--------------
+The vector store used to store all embeddings and metadata is **Deeplake**. It is designed for efficient storage and data handling, ensuring maximum efficiency and productivity in LLM applications. All the previously generate nodes, were store and indexed in Deeplake. 
+
+### 🎖️ Postprocessing and Reranking
 --------------
 
 - **Post Processing**: during retrieval, before passing the retrieved sentences to the LLM, the single sentences are replaced with a window containing the surrounding sentences using the 
 `MetadataReplacementNodePostProcessor`. This is most useful for large documents/indexes, as it helps to retrieve more fine-grained details.
 
 
-- **Reranking**: after retrieval,  the `SentenceTransformerRerank` uses the cross-encoders from the sentence-transformer package to re-order nodes, and returns the `top N nodes`. The crossEncoder model is a type of Sentence Transformer model that takes a pair of sentences and returns a single relevance score.
+- **Reranking**: after retrieval, the `SentenceTransformerRerank` uses the cross-encoders from the sentence-transformer package to re-order nodes, and returns the `top N nodes`. The crossEncoder model is a type of Sentence Transformer model that takes a pair of sentences and returns a single relevance score.
 
 ### 📥 Query Engine
 --------------
 
-Once the pipeline is set up, the query can be done. To the question `Which are the main characters of the book?` the follwing output with the socre and the top N node from where the information was retrieved
+Once the pipeline is set up, the query can be done. To the question `Which are the main characters of the book?` the following output with the **score** and the top N node from where the information was retrieved.
 
 <p align="center">
 <img width="563" alt="Screen Shot 2024-01-05 at 9 05 56 AM" src="https://github.com/benitomartin/benitomartin/assets/116911431/8476121d-b265-4c53-908c-a7c9921baff2">
@@ -101,7 +105,7 @@ For instance:
 
 To evaluate the model the `generate_question_context_pairs` function to generate an evaluation dataset of (question, context) pairs over the text corpus was used. This uses the LLM to auto-generate questions from each context chunk.
 
-After the questions are generated the model was evaluated in chunk. The metrics used for this purpose were the following:
+After the questions are generated, the model was evaluated in chunk. The metrics used for this purpose were the following:
 
 - **Relevancy** evaluates whether the retrieved context and answer are relevant to the query.
 
@@ -112,7 +116,7 @@ Both metrics evaluate from 0 to 1, the higher the better. The result for the top
 <img width="470" alt="Screen Shot 2024-01-05 at 9 05 56 AM" src="https://github.com/benitomartin/benitomartin/assets/116911431/36ad50e5-c3fb-42a2-aaed-53193dbad8eb">
 </p>
 
-##  📈 Further Steps
+## 📈 Further Steps
 
 This pipeline shows that a proper text preprocessing combined with a vector database, can end up in a outstanding model performance. However, there is always a path for improvement or different strategies for the data preprocessing. Some steps that can be carried out can be listed as follows:
 
