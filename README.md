@@ -1,4 +1,4 @@
-# RAGA LLAMA INDEX 🦙
+# RAG LLAMA INDEX 🦙
 
 <p align="center">
     <img src="https://www.peru.travel/contenido/general/imagen/en/430/1.1/portada%20llamas,%20alpacas%20y%20vicu%C3%B1as.jpg" width="500" height="400"/>
