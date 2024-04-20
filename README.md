@@ -24,6 +24,7 @@ The main steps taken to build the RAG pipeline can be summarize as follows (a ba
 
 - **Evaluation**: relevancy and faithfulness based on questions generated with the `generate_question_context_pairs` function
 
+Feel free to ⭐ and clone this repo 😉
 
 ## 👨‍💻 **Tech Stack**
 
