@@ -1,7 +1,7 @@
 # RAG LLAMA INDEX 🦙
 
 <p align="center">
-    <img src="https://www.peru.travel/contenido/general/imagen/en/430/1.1/portada%20llamas,%20alpacas%20y%20vicu%C3%B1as.jpg" width="500" height="400"/>
+    <img src="images/image.png" width="auto" height="400"/>
 </p>
 
 This repository hosts a full Q&A pipeline using llama index framework and Deeplake as vector database. The data used are Harry Potter books that have been extracted from **[Kaggle](https://www.kaggle.com/datasets/hinepo/harry-potter-books-in-pdf-1-7)**. For the following pipeline only 2 books were used due to memory and API KEY tokens limitations.
